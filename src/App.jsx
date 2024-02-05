@@ -1,14 +1,12 @@
 import './App.css'
-// import Drawer from "./components/Drawer.jsx"
 import NavBar from "./components/NavBar.jsx"
-
+import SmoothiePage from "./components/SmoothiePage.jsx"
 
 function App() {
-
   return (
     <>
       <NavBar />
-      {/* <Drawer /> */}
+      <SmoothiePage />
     </>
   )
 }
