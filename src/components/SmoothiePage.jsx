@@ -5,6 +5,7 @@ import {
   Input,
   Button,
   Typography,
+  Textarea,
   CardFooter,
   Dialog,
   CardBody,
@@ -16,7 +17,9 @@ function SmoothiePage() {
   const handleOpen = () => setOpen(!open)
 
   const [smoothies, setSmoothies] = useState([])
-  const [title, setTitle] = useState(smoothies.title)
+  const [name, setName] = useState(smoothies.name)
+  const [video, setVideo] = useState(smoothies.video)
+  const [description, setDescription] = useState(smoothies.description)
 
   useEffect(() => {
     getSmoothies()
@@ -32,7 +35,7 @@ async function getSmoothies() {
 async function createSmoothie() {
   const { data, error } = await supabase
       .from('smoothies')
-      .insert([{title}])
+      .insert([{name, description, video}])
       .select()
 
       if (error) {
@@ -44,15 +47,13 @@ async function createSmoothie() {
       }
       window.location.reload()
     }
-
-
         console.log(smoothies)
-
   return (
     <>
 <br />
-<Button onClick={() => handleOpen()}>Create Smoothie</Button>
+<Button onClick={() => handleOpen()}>Create Drill</Button>
 
+    {/* Create Smoothie Dialog */}
     <Dialog
         size="xs"
         open={open}
@@ -64,16 +65,24 @@ async function createSmoothie() {
           <form>
         <div className="mb-1 flex flex-col gap-6">
         <Typography variant="h6" color="blue-gray" className="-mb-3">
-            Create New Smoothie
+            Create New Drill
           </Typography>
           <Input
-            size="lg"
-            placeholder="Title"
-            className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-            labelProps={{
-              className: "before:content-none after:content-none",
-            }}
-            onChange={(e) => setTitle(e.target.value)}
+            label="Name"
+            id="name"
+            onChange={(e) => setName(e.target.value)}
+          />
+
+          <Input
+            label="Video Link"
+            id="video"
+            onChange={(e) => setVideo(e.target.value)}
+          />
+
+          <Textarea
+          label="Description"
+          id="description"
+          onChange={(e) => setDescription(e.target.value)}
           />
         </div>
       </form>
