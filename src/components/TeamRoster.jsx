@@ -1,26 +1,26 @@
-import { Card, Typography, Switch } from "@material-tailwind/react";
+import { Card, Typography } from "@material-tailwind/react";
 
-const TABLE_HEAD = ["Name", "Team", "Activity", ""];
+const TABLE_HEAD = ["#", "Name", "School"];
 
 const TABLE_ROWS = [
   {
-    name: "Player 1",
-    team: "BatDogs",
-    activity: true,
+    number: "1",
+    name: "Shelley",
+    school: "Ballard",
   },
   {
-    name: "Player 2",
-    team: "Tacos",
-    activity: true,
+    number: "2",
+    name: "Lucas",
+    school: "HLS",
   },
   {
-    name: "Player 3",
-    team: "Sliders",
-    activity: true,
+    number: "3",
+    name: "Will",
+    school: "Trinity",
   },
 ];
 
-export default function DefaultTable() {
+export default function TeamRoster() {
   return (
     <Card className="h-full w-full overflow-scroll">
       <table className="w-full min-w-max table-auto text-left">
@@ -43,12 +43,21 @@ export default function DefaultTable() {
           </tr>
         </thead>
         <tbody>
-          {TABLE_ROWS.map(({ name, team, activity }, index) => {
+          {TABLE_ROWS.map(({ number, name, school }, index) => {
             const isLast = index === TABLE_ROWS.length - 1;
             const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
 
             return (
               <tr key={name}>
+                <td className={classes}>
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-normal"
+                  >
+                    {number}
+                  </Typography>
+                </td>
                 <td className={classes}>
                   <Typography
                     variant="small"
@@ -64,21 +73,7 @@ export default function DefaultTable() {
                     color="blue-gray"
                     className="font-normal"
                   >
-                    {team}
-                  </Typography>
-                </td>
-                <td className={classes}>
-                <Switch></Switch>
-                </td>
-                <td className={classes}>
-                  <Typography
-                    as="a"
-                    href="#"
-                    variant="small"
-                    color="blue-gray"
-                    className="font-medium"
-                  >
-                    Edit
+                    {school}
                   </Typography>
                 </td>
               </tr>

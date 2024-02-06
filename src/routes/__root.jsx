@@ -2,6 +2,7 @@ import * as React from 'react'
 import { Link, Outlet, createRootRoute } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/router-devtools'
 import NavBar from "../components/NavBar.jsx"
+import { ThemeProvider } from "@material-tailwind/react"
 
 export const Route = createRootRoute({
   component: RootComponent,
@@ -10,9 +11,12 @@ export const Route = createRootRoute({
 function RootComponent() {
   return (
     <>
+    {/* <ThemeProvider>
       <NavBar />
+      </ThemeProvider> */}
 
-      {/* <div className="p-2 flex gap-2 text-lg">
+<ThemeProvider>
+      <div className="p-2 flex gap-2 text-lg">
         <Link
 
           to="/"
@@ -32,9 +36,10 @@ function RootComponent() {
           About
         </Link>
       </div>
-      <hr /> */}
+      <hr />
       <Outlet />
       <TanStackRouterDevtools position="bottom-right" />
+      </ThemeProvider>
     </>
   )
 }

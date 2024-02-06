@@ -1,4 +1,5 @@
 import { Typography } from "@material-tailwind/react";
+import BatDogsB from "../components/BatDogsB.svg"
 
 export default function FooterWithLogo() {
   const currentYear = new Date().getFullYear();
@@ -45,7 +46,7 @@ export default function FooterWithLogo() {
             variant="small"
             className="mb-4 text-center font-normal text-blue-gray-900 md:mb-0"
           >
-            &copy; {currentYear} <a href="https://material-tailwind.com/">Ballpark Baseball Club</a>. All
+            &copy; {currentYear} Ballpark Baseball Club. All
             Rights Reserved.
           </Typography>
           <div className="flex gap-4 text-blue-gray-900 sm:justify-center">
