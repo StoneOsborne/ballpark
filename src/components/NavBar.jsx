@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from '@tanstack/react-router'
 import {
   Navbar,
   Drawer,
@@ -18,25 +19,25 @@ function NavList() {
   {/* MUST UPDATE List Below */}
   return (
     <ul className="my-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
+      <Link to="/">
+        <Typography
+          as="li"
+          variant="small"
+          color="blue-gray"
+          className="p-1 font-medium hover:text-blue-500 transition-colors"
+        >
+        Teams
+        </Typography>
+      </Link>
       <Typography
         as="li"
         variant="small"
         color="blue-gray"
         className="p-1 font-medium"
       >
-        <a href="#" className="flex items-center hover:text-blue-500 transition-colors">
-          Teams
-        </a>
-      </Typography>
-      <Typography
-        as="li"
-        variant="small"
-        color="blue-gray"
-        className="p-1 font-medium"
-      >
-        <a href="#" className="flex items-center hover:text-blue-500 transition-colors">
+
           Sponsors
-        </a>
+
       </Typography>
       <Typography
         as="li"
@@ -44,9 +45,9 @@ function NavList() {
         color="blue-gray"
         className="p-1 font-medium"
       >
-        <a href="#" className="flex items-center hover:text-blue-500 transition-colors">
+        
           About Us
-        </a>
+
       </Typography>
 
       <AccountIcon />
