@@ -35,9 +35,7 @@ function NavList() {
         color="blue-gray"
         className="p-1 font-medium"
       >
-
-          Sponsors
-
+        Sponsors
       </Typography>
       <Typography
         as="li"
@@ -45,11 +43,8 @@ function NavList() {
         color="blue-gray"
         className="p-1 font-medium"
       >
-        
-          About Us
-
+        About Us
       </Typography>
-
       <AccountIcon />
     </ul>
   );
@@ -66,7 +61,14 @@ function AccountIcon() {
         </IconButton>
       </MenuHandler>
       <MenuList>
-        <MenuItem>Login</MenuItem>
+      <Link to="/AuthPage">
+        <MenuItem>AuthPage</MenuItem>
+      </Link>
+
+      <Link to="/AuthUI">
+        <MenuItem>AuthUI</MenuItem>
+      </Link>
+
         <MenuItem>Dashboard</MenuItem>
         <MenuItem>Logout</MenuItem>
       </MenuList>

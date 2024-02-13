@@ -1,19 +1,15 @@
 import * as React from 'react'
-import SmoothiePage from "../components/SmoothiePage.jsx"
-
 import { createFileRoute } from '@tanstack/react-router'
+import AuthPage from "../components/AuthPage.jsx"
 
 export const Route = createFileRoute('/aboutUs')({
-  component: AboutUsComponent,
+  component: AboutUSComponent,
 })
 
-function AboutUsComponent() {
+function AboutUSComponent() {
   return (
-    <>
-    <h1>About Us</h1>
-      <div className="p-2">
-        <SmoothiePage />
-      </div>
-    </>
+    <div className="p-2">
+      <AuthPage />
+    </div>
   )
 }

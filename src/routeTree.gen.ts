@@ -5,6 +5,8 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as SponsorsPageImport } from './routes/sponsorsPage'
 import { Route as AboutUsImport } from './routes/aboutUs'
+import { Route as AuthUIImport } from './routes/AuthUI'
+import { Route as AuthPageImport } from './routes/AuthPage'
 import { Route as IndexImport } from './routes/index'
 
 // Create/Update Routes
@@ -19,6 +21,16 @@ const AboutUsRoute = AboutUsImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const AuthUIRoute = AuthUIImport.update({
+  path: '/AuthUI',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AuthPageRoute = AuthPageImport.update({
+  path: '/AuthPage',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const IndexRoute = IndexImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
@@ -30,6 +42,14 @@ declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
     '/': {
       preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/AuthPage': {
+      preLoaderRoute: typeof AuthPageImport
+      parentRoute: typeof rootRoute
+    }
+    '/AuthUI': {
+      preLoaderRoute: typeof AuthUIImport
       parentRoute: typeof rootRoute
     }
     '/aboutUs': {
@@ -47,6 +67,8 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren([
   IndexRoute,
+  AuthPageRoute,
+  AuthUIRoute,
   AboutUsRoute,
   SponsorsPageRoute,
 ])
