@@ -24,10 +24,14 @@ export const Route = createFileRoute('/AuthPage')({
 function AuthPageComponent() {
   const [ userEmail, setUserEmail ] = useState()
   const [ userPassword, setUserPassword ] = useState()
-  const [ showAuth, setShowAuth ] = useState(true)
 
-  const AuthSignInPage = () => setShowAuth(true);
-  const AuthSignUpPage = () => setShowAuth(false);
+  const [ showAuth, setShowAuth ] = useState(true)
+  const showAuthTrue = () => setShowAuth(true);
+  const showAuthFalse = () => setShowAuth(false)
+
+  const [ userAuthenticated, setUserAuthenticated ] = useState(false)
+  const userAuthenticatedTrue = () => setUserAuthenticated(true);
+  const userAuthenticatedFalse = () => setUserAuthenticated(false)
 
 
   // const user = useUsers()
@@ -44,8 +48,8 @@ function AuthPageComponent() {
 
 async function signUp() {
   const { data, error } = await supabase.auth.signUp({
-    email: 'sydney@bornagainstrength.com',
-    password: 'BornAgain5!',
+    email: userEmail,
+    password: userPassword,
   })
 }
 
@@ -78,9 +82,10 @@ async function deleteUser() {
     if (event === 'INITIAL_SESSION') {
       // handle initial session
     } else if (event === 'SIGNED_IN') {
-      // handle sign in event
+      console.log('Go to new page')
+      userAuthenticatedTrue()
     } else if (event === 'SIGNED_OUT') {
-      // handle sign out event
+      userAuthenticatedFalse()
     } else if (event === 'PASSWORD_RECOVERY') {
       // handle password recovery event
     } else if (event === 'TOKEN_REFRESHED') {
@@ -94,9 +99,78 @@ async function deleteUser() {
 
   return (
     <>
-    { showAuth === true ?
-      <>
+      { userAuthenticated === true ?
+        <>
+          Display if Signed In
+          <Button color="yellow" onClick={() => signOut()}>SignOut</Button>
+        </>
+        :
+        <>
+        { showAuth === true ?
+          <>
+            <div className="grid place-items-center">
+            <Card className="w-96 mt-2">
+              <CardBody className="flex flex-col gap-4">
+              <Input label='Email' size="lg" onChange={(e) => setUserEmail(e.target.value)}></Input>
+              <Input type='password' size="lg" label='Password' onChange={(e) => setUserPassword(e.target.value)}></Input>
+              </CardBody>
+              <CardFooter className="pt-0">
+                <Button onClick={() => signIn()} variant="gradient" fullWidth>
+                  Sign In
+                </Button>
+                <Typography variant="small" className="mt-6 flex justify-center">
+                  Don&apos;t have an account?
+                  <Typography
+                    onClick={() => showAuthFalse()}
+                    variant="small"
+                    color="blue-gray"
+                    className="ml-1 font-bold cursor-pointer"
+                  >
+                    Sign Up
+                  </Typography>
+                </Typography>
+              </CardFooter>
+            </Card>
+          </div>
+          <Button color="yellow" onClick={() => signOut()}>SignOut</Button>
+          </>
+          :
+          <>
+          <div className="grid place-items-center">
+            <Card className="w-96 mt-2">
+              <CardBody className="flex flex-col gap-4">
+              <Input label='Email' size="lg" onChange={(e) => setUserEmail(e.target.value)}></Input>
+              <Input type='password' size="lg" label='Password'></Input>
+              <Input type='password' size="lg" label='Confirm Password' onChange={(e) => setUserPassword(e.target.value)}></Input>
+              </CardBody>
+              <CardFooter className="pt-0">
+                <Button onClick={() => signUp()} variant="gradient" fullWidth>
+                  Sign Up
+                </Button>
+                <Typography variant="small" className="mt-6 flex justify-center">
+                  Back to
+                  <Typography
+                    onClick={() => showAuthTrue()}
+                    variant="small"
+                    color="blue-gray"
+                    className="ml-1 font-bold cursor-pointer"
+                  >
+                    Sign In
+                  </Typography>
+                </Typography>
+              </CardFooter>
+            </Card>
 
+            <Button color="yellow" onClick={() => signOut()}>SignOut</Button>
+          </div>
+          </>
+        }
+        </>
+    }
+
+{/*
+    { userState === true ?
+      <>
       <div className="grid place-items-center">
         <Card className="w-96 mt-2">
           <CardBody className="flex flex-col gap-4">
@@ -120,6 +194,8 @@ async function deleteUser() {
             </Typography>
           </CardFooter>
         </Card>
+
+        <Button color="yellow" onClick={() => signOut()}>SignOut</Button>
       </div>
 
 
@@ -130,14 +206,6 @@ async function deleteUser() {
       </>
       :
       <>
-        <h1>Sign Up Auth</h1>
-        <Auth
-          supabaseClient={supabase}
-          appearance={{ theme: ThemeSupa }}
-          providers={[]}
-          onChange={(e) => setUserState(e.target.value)}
-        />
-
       <div className="grid place-items-center">
         <Card className="w-96 mt-2">
           <CardBody className="flex flex-col gap-4">
@@ -151,7 +219,7 @@ async function deleteUser() {
             <Typography variant="small" className="mt-6 flex justify-center">
               Back to
               <Typography
-                onClick={() => AuthSignInPage()}
+                onClick={() => userStateTrue()}
                 variant="small"
                 color="blue-gray"
                 className="ml-1 font-bold cursor-pointer"
@@ -161,13 +229,12 @@ async function deleteUser() {
             </Typography>
           </CardFooter>
         </Card>
+
+        <Button color="yellow" onClick={() => signOut()}>SignOut</Button>
       </div>
 
       </>
   }
-
-<br />
-<br />
 
         {/* <input type="file" onChange={(e) => uploadImage(e)}></input> */}
     </>

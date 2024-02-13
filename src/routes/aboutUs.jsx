@@ -9,7 +9,7 @@ export const Route = createFileRoute('/aboutUs')({
 function AboutUSComponent() {
   return (
     <div className="p-2">
-      <AuthPage />
+      <h1>About Us</h1>
     </div>
   )
 }
