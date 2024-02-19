@@ -10,7 +10,7 @@ export default function FooterWithLogo() {
        <Link to="/"><img src="https://docs.material-tailwind.com/img/logo-ct-dark.png" alt="logo-ct" className="w-10" /></Link>
         <ul className="flex flex-wrap items-center gap-y-2 gap-x-8">
           <li>
-            <Link to="/">
+            <Link to="/teampage">
               <Typography
                 color="blue-gray"
                 className="font-normal transition-colors hover:text-blue-500 focus:text-blue-500"

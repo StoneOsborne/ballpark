@@ -106,7 +106,7 @@ async function deleteSmoothie() {
             Your browser does not support the video tag.
           </video>
           <Typography variant="h5" color="blue-gray" className="mb-2">
-            {smoothie.name}
+            {smoothie.id}
           </Typography>
           <Typography>{smoothie.description}</Typography>
           </CardBody>

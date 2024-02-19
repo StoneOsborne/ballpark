@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { createFileRoute } from '@tanstack/react-router'
-import AuthPage from "../components/AuthPage.jsx"
 
 export const Route = createFileRoute('/aboutUs')({
   component: AboutUSComponent,

@@ -19,7 +19,7 @@ function NavList() {
   {/* MUST UPDATE List Below */}
   return (
     <ul className="my-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
-      <Link to="/">
+      <Link to="/teampage">
         <Typography
           as="li"
           variant="small"
@@ -98,24 +98,23 @@ export default function NavbarSimple() {
         </IconButton>
 
       {/* Will display on SMALL SCREENS */}
+      <Link to="/" className="lg:hidden ml-auto mr-4 cursor-pointer py-1.5">
         <Typography
-          as="a"
-          href="#"
           variant="h6"
-          className="lg:hidden ml-auto mr-4 cursor-pointer py-1.5"
         >
           Ballpark Baseball Club
         </Typography>
+      </Link>
 
       {/* Will display on LARGE SCREENS */}
+      <Link to="/" className="hidden lg:block mr-4 cursor-pointer py-1.5">
         <Typography
-          as="a"
-          href="#"
-          variant="h6"
-          className="hidden lg:block mr-4 cursor-pointer py-1.5"
-        >
-          Ballpark Baseball Club
-        </Typography>
+            variant="h6"
+          >
+            Ballpark Baseball Club
+          </Typography>
+      </Link>
+
 
       {/* Will display on LARGE SCREENS */}
         <div className="hidden lg:block">
@@ -153,17 +152,23 @@ export default function NavbarSimple() {
         </div>
         {/* MUST UPDATE NavList Above */}
         <List>
+        <Link to="/teampage" onClick={closeDrawer}>
           <ListItem>
             Teams
           </ListItem>
+        </Link>
 
+        <Link to="/sponsorspage" onClick={closeDrawer}>
           <ListItem>
             Sponsors
           </ListItem>
+        </Link>
 
+        <Link to="/aboutus" onClick={closeDrawer}>
           <ListItem>
             About Us
           </ListItem>
+        </Link>
 
         </List>
         <Button className="mt-3 ml-5" size="sm">

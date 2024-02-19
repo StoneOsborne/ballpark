@@ -29,7 +29,7 @@ function AuthUIComponent() {
     if (event === 'INITIAL_SESSION') {
       // handle initial session
     } else if (event === 'SIGNED_IN') {
-      console.log('Go to new page')
+      console.log(session)
       userStateTrue()
     } else if (event === 'SIGNED_OUT') {
       userStateFalse()

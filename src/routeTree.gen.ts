@@ -5,6 +5,7 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as SponsorsPageImport } from './routes/sponsorsPage'
 import { Route as AboutUsImport } from './routes/aboutUs'
+import { Route as TeamPageImport } from './routes/TeamPage'
 import { Route as AuthUIImport } from './routes/AuthUI'
 import { Route as AuthPageImport } from './routes/AuthPage'
 import { Route as IndexImport } from './routes/index'
@@ -18,6 +19,11 @@ const SponsorsPageRoute = SponsorsPageImport.update({
 
 const AboutUsRoute = AboutUsImport.update({
   path: '/aboutUs',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const TeamPageRoute = TeamPageImport.update({
+  path: '/TeamPage',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -52,6 +58,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthUIImport
       parentRoute: typeof rootRoute
     }
+    '/TeamPage': {
+      preLoaderRoute: typeof TeamPageImport
+      parentRoute: typeof rootRoute
+    }
     '/aboutUs': {
       preLoaderRoute: typeof AboutUsImport
       parentRoute: typeof rootRoute
@@ -69,6 +79,7 @@ export const routeTree = rootRoute.addChildren([
   IndexRoute,
   AuthPageRoute,
   AuthUIRoute,
+  TeamPageRoute,
   AboutUsRoute,
   SponsorsPageRoute,
 ])
