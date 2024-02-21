@@ -61,18 +61,29 @@ function AccountIcon() {
           </svg>
         </IconButton>
       </MenuHandler>
-      <MenuList>
-      <Link to="/AuthPage">
-        <MenuItem>AuthPage</MenuItem>
-      </Link>
+        <MenuList>
+          <MenuItem>Dashboard</MenuItem>
+          <MenuItem onClick={() => signOut()}>Logout</MenuItem>
+        
+        <Link to="/AuthPage">
+          <MenuItem>AuthPage</MenuItem>
+        </Link>
+        </MenuList>
 
-      <Link to="/AuthUI">
-        <MenuItem>AuthUI</MenuItem>
-      </Link>
 
-        <MenuItem>Dashboard</MenuItem>
-        <MenuItem onClick={() => signOut()}>Logout</MenuItem>
-      </MenuList>
+{/*
+      { userAuthenticated === true ?
+        <MenuList>
+          <MenuItem>Dashboard</MenuItem>
+          <MenuItem onClick={() => signOut()}>Logout</MenuItem>
+        </MenuList>
+        :
+        <MenuList>
+        <Link to="/AuthPage">
+          <MenuItem>AuthPage</MenuItem>
+        </Link>
+        </MenuList>
+      } */}
     </Menu>
   )
 }

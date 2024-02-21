@@ -11,7 +11,6 @@ import {
   CardBody,
   CardFooter,
 } from "@material-tailwind/react";
-import UserPage from "../components/UserPage.jsx"
 
 export const Route = createFileRoute('/AuthPage')({
   component: AuthPageComponent,
@@ -22,42 +21,43 @@ function AuthPageComponent() {
   const [ userPassword, setUserPassword ] = useState()
 
   const [ showAuth, setShowAuth ] = useState(true)
-  const showAuthTrue = () => setShowAuth(true);
-  const showAuthFalse = () => setShowAuth(false)
 
   const [ userAuthenticated, setUserAuthenticated ] = useState(false)
-  const userAuthenticatedTrue = () => setUserAuthenticated(true);
-  const userAuthenticatedFalse = () => setUserAuthenticated(false)
 
+  function signUp() {
+    return AuthService.signUp(userEmail, userPassword).then(() => {
+      setUserAuthenticated(!userAuthenticated)
+    })
+  }
 
-function signUp() {
-  return AuthService.signUp(userEmail, userPassword)
-}
+  function signIn() {
+    return AuthService.signIn(userEmail, userPassword).then(() => {
+      setUserAuthenticated(!userAuthenticated)
+    })
+  }
 
-function signIn() {
-  return AuthService.signIn(userEmail, userPassword)
-}
-
-function signOut() {
-  return AuthService.signOut()
-}
+  function signOut() {
+    AuthService.signOut().then(() => {
+      setUserAuthenticated(!userAuthenticated)
+    })
+  }
 
   const { data } = supabase.auth.onAuthStateChange((event, session) => {
     console.log(event, session)
 
-    if (event === 'INITIAL_SESSION') {
-      // handle initial session
-    } else if (event === 'SIGNED_IN') {
-      userAuthenticatedTrue()
-    } else if (event === 'SIGNED_OUT') {
-      userAuthenticatedFalse()
-    } else if (event === 'PASSWORD_RECOVERY') {
-      // handle password recovery event
-    } else if (event === 'TOKEN_REFRESHED') {
-      // handle token refreshed event
-    } else if (event === 'USER_UPDATED') {
-      // handle user updated event
-    }
+    // if (event === 'INITIAL_SESSION') {
+    //   // handle initial session
+    // } else if (event === 'SIGNED_IN') {
+    //   userAuthenticatedTrue()
+    // } else if (event === 'SIGNED_OUT') {
+    //   userAuthenticatedFalse()
+    // } else if (event === 'PASSWORD_RECOVERY') {
+    //   // handle password recovery event
+    // } else if (event === 'TOKEN_REFRESHED') {
+    //   // handle token refreshed event
+    // } else if (event === 'USER_UPDATED') {
+    //   // handle user updated event
+    // }
   })
 
   return (
@@ -84,7 +84,7 @@ function signOut() {
                 <Typography variant="small" className="mt-6 flex justify-center">
                   Don&apos;t have an account?
                   <Typography
-                    onClick={() => showAuthFalse()}
+                    onClick={() => setShowAuth(!showAuth)}
                     variant="small"
                     color="blue-gray"
                     className="ml-1 font-bold cursor-pointer"
@@ -95,7 +95,6 @@ function signOut() {
               </CardFooter>
             </Card>
           </div>
-          <Button color="yellow" onClick={() => signOut()}>SignOut</Button>
           </>
           :
           <>
@@ -113,7 +112,7 @@ function signOut() {
                 <Typography variant="small" className="mt-6 flex justify-center">
                   Back to
                   <Typography
-                    onClick={() => showAuthTrue()}
+                    onClick={() => setShowAuth(!showAuth)}
                     variant="small"
                     color="blue-gray"
                     className="ml-1 font-bold cursor-pointer"
@@ -123,8 +122,6 @@ function signOut() {
                 </Typography>
               </CardFooter>
             </Card>
-
-            <Button color="yellow" onClick={() => signOut()}>SignOut</Button>
           </div>
           </>
         }

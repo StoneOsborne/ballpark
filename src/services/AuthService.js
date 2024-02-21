@@ -1,11 +1,17 @@
 import supabase from "../supabaseClient"
-import { useEffect, useState } from 'react'
 
   async function signUp(userEmail, userPassword) {
     const { data, error } = await supabase.auth.signUp({
       email: userEmail,
       password: userPassword,
     })
+    if (error) {
+      console.log(error)
+    }
+
+    if (data) {
+      console.log(data)
+    }
   }
 
   async function signIn(userEmail, userPassword) {
@@ -14,10 +20,20 @@ import { useEffect, useState } from 'react'
       password: userPassword,
     }
     )
+    if (error) {
+      console.log(error)
+    }
+
+    if (data) {
+      console.log(data)
+    }
   }
 
   async function signOut() {
     const { error } = await supabase.auth.signOut()
+    if (error) {
+      console.log(error)
+    }
   }
 
   export default {

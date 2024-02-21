@@ -1,4 +1,5 @@
 import supabase from "../supabaseClient"
+import ProfileService from '@/services/ProfileService.js'
 import { useState, useEffect } from 'react'
 import { Card, Typography, Switch, Button, Dialog, DialogHeader, DialogBody, DialogFooter, CardBody, CardFooter, Input, Select, Option } from "@material-tailwind/react";
 
@@ -7,31 +8,34 @@ const TABLE_HEADER = ["#", "Name", "School", "Membership", "Active", "Edit"];
 const TABLE_TWO = ["#", "Name", "School"];
 
 
-const Players = [
-  {
-    number: "1",
-    name: "Dylan Shelley",
-    school: "Ballard",
-    active: false,
-    membership: "Gold",
-  },
-  {
-    number: "2",
-    name: "Lucas Trier",
-    school: "HLS",
-    active: true,
-    membership: "Bronze",
-  },
-  {
-    number: "3",
-    name: "Will Dietzel",
-    school: "Trinity",
-    active: true,
-    membership: "Silver",
-  },
-];
+// const Players = [
+//   {
+//     number: "1",
+//     name: "Dylan Shelley",
+//     school: "Ballard",
+//     active: false,
+//     membership: "Gold",
+//   },
+//   {
+//     number: "2",
+//     name: "Lucas Trier",
+//     school: "HLS",
+//     active: true,
+//     membership: "Bronze",
+//   },
+//   {
+//     number: "3",
+//     name: "Will Dietzel",
+//     school: "Trinity",
+//     active: true,
+//     membership: "Silver",
+//   },
+// ];
 
 export default function TeamRoster() {
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(!open);
+  
   const [profile, setProfile] = useState([])
 
   useEffect(() => {
@@ -39,21 +43,13 @@ export default function TeamRoster() {
   },[])
 
 async function getProfile() {
-  const { data } = await supabase
-      .from('profile')
-      .select()
-      setProfile(data)
+  ProfileService.getProfile().then((result) => {
+    setProfile(result)
+  })
 }
-
-console.log(profile)
-
-  const [open, setOpen] = useState(false);
-
-  const handleOpen = () => setOpen(!open);
 
   return (
     <>
-
     <Card className="h-full w-full overflow-scroll">
       <table className="w-full min-w-max table-auto text-left">
         <thead>
@@ -76,7 +72,7 @@ console.log(profile)
         </thead>
         <tbody>
           {profile.map(({ number, name, school, membership, active }, index) => {
-            const isLast = index === Players.length - 1;
+            const isLast = index === profile.length - 1;
             const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
 
             return (
