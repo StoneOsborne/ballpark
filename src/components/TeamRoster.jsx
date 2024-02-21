@@ -1,9 +1,11 @@
-import { useState } from 'react'
+import supabase from "../supabaseClient"
+import { useState, useEffect } from 'react'
 import { Card, Typography, Switch, Button, Dialog, DialogHeader, DialogBody, DialogFooter, CardBody, CardFooter, Input, Select, Option } from "@material-tailwind/react";
 
 const TABLE_HEADER = ["#", "Name", "School", "Membership", "Active", "Edit"];
 
 const TABLE_TWO = ["#", "Name", "School"];
+
 
 const Players = [
   {
@@ -30,12 +32,28 @@ const Players = [
 ];
 
 export default function TeamRoster() {
+  const [profile, setProfile] = useState([])
+
+  useEffect(() => {
+    getProfile()
+  },[])
+
+async function getProfile() {
+  const { data } = await supabase
+      .from('profile')
+      .select()
+      setProfile(data)
+}
+
+console.log(profile)
+
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(!open);
 
   return (
     <>
+
     <Card className="h-full w-full overflow-scroll">
       <table className="w-full min-w-max table-auto text-left">
         <thead>
@@ -57,7 +75,7 @@ export default function TeamRoster() {
           </tr>
         </thead>
         <tbody>
-          {Players.map(({ number, name, school, membership, active }, index) => {
+          {profile.map(({ number, name, school, membership, active }, index) => {
             const isLast = index === Players.length - 1;
             const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
 
@@ -102,7 +120,7 @@ export default function TeamRoster() {
                 </td>
 
                 <td className={classes}>
-                  <Switch defaultChecked={active} disabled={true} color="green"></Switch>
+                  <Switch defaultChecked={active} disabled={false} color="green"></Switch>
                 </td>
 
                 <td>

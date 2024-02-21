@@ -1,4 +1,5 @@
 import React from "react";
+import AuthService from '@/services/AuthService.js'
 import { Link } from '@tanstack/react-router'
 import {
   Navbar,
@@ -70,10 +71,13 @@ function AccountIcon() {
       </Link>
 
         <MenuItem>Dashboard</MenuItem>
-        <MenuItem>Logout</MenuItem>
+        <MenuItem onClick={() => signOut()}>Logout</MenuItem>
       </MenuList>
     </Menu>
   )
+}
+function signOut() {
+  return AuthService.signOut()
 }
 
 export default function NavbarSimple() {

@@ -1,4 +1,5 @@
 import * as React from 'react'
+import AuthService from '@/services/AuthService.js'
 import { createFileRoute } from '@tanstack/react-router'
 import supabase from "../supabaseClient"
 import { useState } from 'react'
@@ -29,31 +30,16 @@ function AuthPageComponent() {
   const userAuthenticatedFalse = () => setUserAuthenticated(false)
 
 
-  async function deleteUser() {
-    const { data, error } = await supabase.auth.admin.deleteUser(
-      '1ffc30a8-8057-42ab-81c9-9e9bba1d3f43'
-    )
-  }
-
-async function signUp() {
-  debugger
-  const { data, error } = await supabase.auth.signUp({
-
-    email: userEmail,
-    password: userPassword,
-  })
+function signUp() {
+  return AuthService.signUp(userEmail, userPassword)
 }
 
-async function signIn() {
-  const { data, error } = await supabase.auth.signInWithPassword({
-    email: userEmail,
-    password: userPassword,
-  }
-  )
+function signIn() {
+  return AuthService.signIn(userEmail, userPassword)
 }
 
-async function signOut() {
-  const { error } = await supabase.auth.signOut()
+function signOut() {
+  return AuthService.signOut()
 }
 
   const { data } = supabase.auth.onAuthStateChange((event, session) => {
@@ -62,7 +48,6 @@ async function signOut() {
     if (event === 'INITIAL_SESSION') {
       // handle initial session
     } else if (event === 'SIGNED_IN') {
-      console.log('Go to new page')
       userAuthenticatedTrue()
     } else if (event === 'SIGNED_OUT') {
       userAuthenticatedFalse()
@@ -73,24 +58,13 @@ async function signOut() {
     } else if (event === 'USER_UPDATED') {
       // handle user updated event
     }
-
-    // console.log(session.user.aud)
   })
-
-    // async function uploadImage(e) {
-  //   let file = e.target.files[0]
-
-  //   const { data, error } = await supabase
-  //   .storage
-  //   .from('images')
-  //   .upload("", file)
-  // }
 
   return (
     <>
       { userAuthenticated === true ?
         <>
-          <UserPage />
+          {/* <UserPage /> */}
           <Button color="yellow" onClick={() => signOut()}>SignOut</Button>
         </>
         :
@@ -122,7 +96,6 @@ async function signOut() {
             </Card>
           </div>
           <Button color="yellow" onClick={() => signOut()}>SignOut</Button>
-          <Button color="red" onClick={() => deleteUser()}>Delete</Button>
           </>
           :
           <>
