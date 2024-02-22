@@ -7,6 +7,14 @@ import supabase from "../supabaseClient"
         return data
   }
 
+  async function getUserProfile(params) {
+    debugger
+    const { data } = await supabase
+        .from('profile')
+        .select()
+        return data
+  }
+
   async function updateProfile() {
     const { data, error } = await supabase
     .from('profile')
@@ -43,4 +51,5 @@ import supabase from "../supabaseClient"
     getProfile,
     updateProfile,
     deleteProfile,
+    getUserProfile,
   }

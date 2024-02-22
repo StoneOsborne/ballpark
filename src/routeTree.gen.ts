@@ -9,6 +9,7 @@ import { Route as TeamPageImport } from './routes/TeamPage'
 import { Route as AuthUIImport } from './routes/AuthUI'
 import { Route as AuthPageImport } from './routes/AuthPage'
 import { Route as IndexImport } from './routes/index'
+import { Route as AthletePageAthleteIdImport } from './routes/athletePage.$athleteId'
 
 // Create/Update Routes
 
@@ -42,6 +43,11 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const AthletePageAthleteIdRoute = AthletePageAthleteIdImport.update({
+  path: '/athletePage/$athleteId',
+  getParentRoute: () => rootRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -70,6 +76,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SponsorsPageImport
       parentRoute: typeof rootRoute
     }
+    '/athletePage/$athleteId': {
+      preLoaderRoute: typeof AthletePageAthleteIdImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -82,4 +92,5 @@ export const routeTree = rootRoute.addChildren([
   TeamPageRoute,
   AboutUsRoute,
   SponsorsPageRoute,
+  AthletePageAthleteIdRoute,
 ])
