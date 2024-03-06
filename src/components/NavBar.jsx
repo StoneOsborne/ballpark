@@ -64,7 +64,7 @@ function AccountIcon() {
         <MenuList>
           <MenuItem>Dashboard</MenuItem>
           <MenuItem onClick={() => signOut()}>Logout</MenuItem>
-        
+
         <Link to="/AuthPage">
           <MenuItem>AuthPage</MenuItem>
         </Link>
@@ -99,7 +99,7 @@ export default function NavbarSimple() {
 
   return (
     <React.Fragment>
-    <Navbar className="mx-auto max-w-screen-xl px-6 py-3">
+    <Navbar className="px-6 py-3">
       <div className="flex items-center justify-between text-blue-gray-900">
 
       {/* Will display on SMALL SCREENS */}

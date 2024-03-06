@@ -12,6 +12,7 @@ import supabase from "../supabaseClient"
     if (data) {
       console.log(data)
     }
+    return data
   }
 
   async function signIn(userEmail, userPassword) {
@@ -27,6 +28,7 @@ import supabase from "../supabaseClient"
     if (data) {
       console.log(data)
     }
+    return data
   }
 
   async function signOut() {

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import SmoothiePage from "../components/SmoothiePage.jsx"
+import CreateCoach from "../components/CreateCoach.jsx"
 
 import { createFileRoute } from '@tanstack/react-router'
 
@@ -11,6 +11,7 @@ function SponsorsPageComponent() {
   return (
     <>
     <h1>Sponsors</h1>
+    <CreateCoach />
     </>
   )
 }

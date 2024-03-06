@@ -7,18 +7,20 @@ import supabase from "../supabaseClient"
         return data
   }
 
-  async function getUserProfile(params) {
-    debugger
+  async function getUserProfile(athleteId) {
     const { data } = await supabase
         .from('profile')
         .select()
+        .eq('id', athleteId)
+        .single()
         return data
   }
 
   async function updateProfile() {
+    debugger
     const { data, error } = await supabase
     .from('profile')
-    .update({ name: 'Colby', email: 'True', number: 11, membership: 'Blue', active: true, school: "CEC" })
+    .update({ name: 'Sydney', email: 'True', number: 5, membership: 'Blue', active: true, school: "CEC", primaryPosition: "SS", secondaryPosition: "P", team: "Ballpark BatDogs", admin: false})
     .eq('id', 'c6282c03-e6dd-4b93-9f47-a65063df7258')
     .select()
 

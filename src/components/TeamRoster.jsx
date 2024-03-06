@@ -1,6 +1,7 @@
 import supabase from "../supabaseClient"
 import ProfileService from '@/services/ProfileService.js'
 import { useState, useEffect } from 'react'
+import { Link } from '@tanstack/react-router'
 import { Card, Typography, Switch, Button, Dialog, DialogHeader, DialogBody, DialogFooter, CardBody, CardFooter, Input, Select, Option } from "@material-tailwind/react";
 
 const TABLE_HEADER = ["#", "Name", "School", "Membership", "Active", "Edit"];
@@ -35,7 +36,7 @@ const TABLE_TWO = ["#", "Name", "School"];
 export default function TeamRoster() {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(!open);
-  
+
   const [profile, setProfile] = useState([])
 
   useEffect(() => {
@@ -47,6 +48,8 @@ async function getProfile() {
     setProfile(result)
   })
 }
+
+const athleteId = 'c6282c03-e6dd-4b93-9f47-a65063df7258'
 
   return (
     <>
@@ -71,12 +74,12 @@ async function getProfile() {
           </tr>
         </thead>
         <tbody>
-          {profile.map(({ number, name, school, membership, active }, index) => {
+          {profile.map(({ id, number, name, school, membership, active }, index) => {
             const isLast = index === profile.length - 1;
             const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
 
             return (
-              <tr key={name}>
+              <tr key={id}>
                 <td className={classes}>
                   <Typography
                     variant="small"
@@ -87,6 +90,13 @@ async function getProfile() {
                   </Typography>
                 </td>
                 <td className={classes}>
+
+                <Link
+                  to="/athletePage/$athleteId"
+                  params={{
+                  athleteId: profile.id,
+                  }}
+                  >
                   <Typography
                     variant="small"
                     color="blue-gray"
@@ -94,6 +104,8 @@ async function getProfile() {
                   >
                     {name}
                   </Typography>
+                </Link>
+
                 </td>
                 <td className={classes}>
                   <Typography

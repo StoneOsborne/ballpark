@@ -9,7 +9,10 @@ import { Route as TeamPageImport } from './routes/TeamPage'
 import { Route as AuthUIImport } from './routes/AuthUI'
 import { Route as AuthPageImport } from './routes/AuthPage'
 import { Route as IndexImport } from './routes/index'
+import { Route as ProfilePageProfileIdImport } from './routes/profilePage.$profileId'
+import { Route as AthletePageEditAthleteIdImport } from './routes/athletePageEdit.$athleteId'
 import { Route as AthletePageAthleteIdImport } from './routes/athletePage.$athleteId'
+import { Route as AdminPageAthleteIdImport } from './routes/adminPage.$athleteId'
 
 // Create/Update Routes
 
@@ -43,8 +46,23 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const ProfilePageProfileIdRoute = ProfilePageProfileIdImport.update({
+  path: '/profilePage/$profileId',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AthletePageEditAthleteIdRoute = AthletePageEditAthleteIdImport.update({
+  path: '/athletePageEdit/$athleteId',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const AthletePageAthleteIdRoute = AthletePageAthleteIdImport.update({
   path: '/athletePage/$athleteId',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AdminPageAthleteIdRoute = AdminPageAthleteIdImport.update({
+  path: '/adminPage/$athleteId',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -76,8 +94,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SponsorsPageImport
       parentRoute: typeof rootRoute
     }
+    '/adminPage/$athleteId': {
+      preLoaderRoute: typeof AdminPageAthleteIdImport
+      parentRoute: typeof rootRoute
+    }
     '/athletePage/$athleteId': {
       preLoaderRoute: typeof AthletePageAthleteIdImport
+      parentRoute: typeof rootRoute
+    }
+    '/athletePageEdit/$athleteId': {
+      preLoaderRoute: typeof AthletePageEditAthleteIdImport
+      parentRoute: typeof rootRoute
+    }
+    '/profilePage/$profileId': {
+      preLoaderRoute: typeof ProfilePageProfileIdImport
       parentRoute: typeof rootRoute
     }
   }
@@ -92,5 +122,8 @@ export const routeTree = rootRoute.addChildren([
   TeamPageRoute,
   AboutUsRoute,
   SponsorsPageRoute,
+  AdminPageAthleteIdRoute,
   AthletePageAthleteIdRoute,
+  AthletePageEditAthleteIdRoute,
+  ProfilePageProfileIdRoute,
 ])

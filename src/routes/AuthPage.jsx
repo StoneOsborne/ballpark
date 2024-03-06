@@ -1,16 +1,10 @@
 import * as React from 'react'
 import AuthService from '@/services/AuthService.js'
-import { createFileRoute } from '@tanstack/react-router'
+import ProfileService from '@/services/ProfileService.js'
+import { createFileRoute, useNavigate, Link } from '@tanstack/react-router'
 import supabase from "../supabaseClient"
-import { useState } from 'react'
-import {
-  Input,
-  Button,
-  Typography,
-  Card,
-  CardBody,
-  CardFooter,
-} from "@material-tailwind/react";
+import { useState, useEffect } from 'react'
+import { Input, Button, Typography, Card, CardBody, CardFooter } from "@material-tailwind/react";
 
 export const Route = createFileRoute('/AuthPage')({
   component: AuthPageComponent,
@@ -19,22 +13,58 @@ export const Route = createFileRoute('/AuthPage')({
 function AuthPageComponent() {
   const [ userEmail, setUserEmail ] = useState()
   const [ userPassword, setUserPassword ] = useState()
+  const [ profile, setProfile] = useState([])
 
   const [ showAuth, setShowAuth ] = useState(true)
 
   const [ userAuthenticated, setUserAuthenticated ] = useState(false)
 
-  function signUp() {
-    return AuthService.signUp(userEmail, userPassword).then(() => {
-      setUserAuthenticated(!userAuthenticated)
+  const navigate = useNavigate()
+
+  // function signIn() {
+
+  //   return AuthService.signIn(userEmail, userPassword).then((result) => {
+  //     setProfile(result)
+
+  //     if (result.user.email === "stone@bornagainstrength.com") {
+  //       navigate({ to: '/adminPage/$athleteId', params: { athleteId: result.user.id } })
+  //     }
+  //     if (result.user.email === "stoneosborne44@gmail.com") {
+  //       navigate({ to: '/adminPage/$athleteId', params: { athleteId: result.user.id } })
+  //     }
+  //   })
+  // }
+  // console.log(profile)
+
+
+    function signIn() {
+
+    return AuthService.signIn(userEmail, userPassword).then((result) => {
+      ProfileService.getUserProfile(result.user.id).then((data) => {
+
+        if (data.admin === true) {
+          navigate({ to: '/adminPage/$athleteId', params: { athleteId: data.id } })
+        }
+        if (data.admin === false) {
+          navigate({ to: '/athletePage/$athleteId', params: { athleteId: data.id } })
+        }
+      })
     })
   }
 
-  function signIn() {
-    return AuthService.signIn(userEmail, userPassword).then(() => {
-      setUserAuthenticated(!userAuthenticated)
+  function signUp() {
+    return AuthService.signUp(userEmail, userPassword).then((result) => {
+      navigate({ to: '/athletePageEdit/$athleteId', params: { athleteId: result.user.id } })
     })
   }
+
+
+// function signUp() {
+//   return AuthService.signUp(userEmail, userPassword).then((result) => {
+//     setProfile(result)
+//     setUserAuthenticated(!userAuthenticated)
+//   })
+// }
 
   function signOut() {
     AuthService.signOut().then(() => {
@@ -65,6 +95,15 @@ function AuthPageComponent() {
       { userAuthenticated === true ?
         <>
           {/* <UserPage /> */}
+          <h1>{profile.user.id}</h1>
+          <Link
+      to="/athletePage/$athleteId"
+      params={{
+        athleteId: profile.user.id,
+      }}
+    >
+      <Button color="green">Send Id</Button>
+    </Link>
           <Button color="yellow" onClick={() => signOut()}>SignOut</Button>
         </>
         :
