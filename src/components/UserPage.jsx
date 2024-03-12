@@ -19,7 +19,7 @@ function UserPage() {
     <br />
     <Button color="blue" onClick={updateProfile}>Update</Button>
 
-    <Button color="red" onClick={deleteProfile}>Delete</Button> */
+    <Button color="red" onClick={deleteProfile}>Delete</Button>
 
     <Link
       to="/athletePage/$athleteId"

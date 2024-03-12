@@ -1,5 +1,6 @@
 import './index.css'
 import React, { StrictMode } from 'react'
+import { ChakraProvider } from '@chakra-ui/react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider, createRouter } from '@tanstack/react-router'
 
@@ -23,7 +24,9 @@ if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement)
   root.render(
     <StrictMode>
+      <ChakraProvider>
         <RouterProvider router={router} />
-    </StrictMode>,
+      </ChakraProvider>
+    </StrictMode>
   )
 }

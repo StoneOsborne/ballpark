@@ -1,75 +1,49 @@
-import supabase from "../supabaseClient"
 import ProfileService from '@/services/ProfileService.js'
-import NameStore from '@/stores/NameStore.js'
+import CoachService from '@/services/CoachService.js'
 import { useState, useEffect } from 'react'
 import { Link } from '@tanstack/react-router'
 import { Card, Typography, Switch, Button, Dialog, DialogHeader, DialogBody, DialogFooter, CardBody, CardFooter, Input, Select, Option } from "@material-tailwind/react";
 
-const TABLE_HEADER = ["#", "Name", "School", "Membership", "Active", "Edit"];
+const TABLE_HEADER = ["Name", "Team", "Role", "Active", "Edit"];
 
-const TABLE_TWO = ["#", "Name", "School"];
+export default function CoachTable() {
+  // const [coachName, setCoachName] = useState()
+  const [coach, setCoach] = useState([])
+  const [name, setName] = useState(coach.name)
+  const [team, setTeam] = useState(coach.team)
+  const [role, setRole] = useState(coach.role)
 
-
-// const Players = [
-//   {
-//     number: "1",
-//     name: "Dylan Shelley",
-//     school: "Ballard",
-//     active: false,
-//     membership: "Gold",
-//   },
-//   {
-//     number: "2",
-//     name: "Lucas Trier",
-//     school: "HLS",
-//     active: true,
-//     membership: "Bronze",
-//   },
-//   {
-//     number: "3",
-//     name: "Will Dietzel",
-//     school: "Trinity",
-//     active: true,
-//     membership: "Silver",
-//   },
-// ];
-
-export default function TeamRoster() {
   const [open, setOpen] = useState(false);
+  const [openCoachDialog, setCoachDialog] = useState(false);
   const handleOpen = () => setOpen(!open);
+  const coachDialog = () => setCoachDialog(!openCoachDialog);
 
-  const [profile, setProfile] = useState([])
-
-  const [name, setName] = useState('Stone')
-  // function updateName() {
-  //   setName('Sydney')
-  // }
-
-  function updateName() {
-    NameStore.updateName()
-  }
 
   useEffect(() => {
-    getProfile()
+    getCoach()
   },[])
 
-async function getProfile() {
-  ProfileService.getProfile().then((result) => {
-    setProfile(result)
+async function getCoach() {
+  CoachService.getCoach().then((result) => {
+    setCoach(result)
   })
 }
 
+async function createCoach2() {
+  debugger
+  CoachService.createCoach2(name, team, role)
+    }
+
+// async function createCoach(coachName) {
+//   debugger
+//   CoachService.createCoach(coachName)
+//   }
+
+// console.log(coachName)
 const athleteId = 'c6282c03-e6dd-4b93-9f47-a65063df7258'
 
   return (
     <>
-    <h1>Hi {name}</h1>
-
-    <Input label='First Name' size="lg"></Input>
-
-    <Button onClick={updateName}>Change name</Button>
-
-
     <Card className="h-full w-full overflow-scroll">
       <table className="w-full min-w-max table-auto text-left">
         <thead>
@@ -91,8 +65,8 @@ const athleteId = 'c6282c03-e6dd-4b93-9f47-a65063df7258'
           </tr>
         </thead>
         <tbody>
-          {profile.map(({ id, number, name, school, membership, active }, index) => {
-            const isLast = index === profile.length - 1;
+          {coach.map(({ id, name, team, role, active }, index) => {
+            const isLast = index === coach.length - 1;
             const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
 
             return (
@@ -103,34 +77,17 @@ const athleteId = 'c6282c03-e6dd-4b93-9f47-a65063df7258'
                     color="blue-gray"
                     className="font-normal"
                   >
-                    {number}
-                  </Typography>
-                </td>
-                <td className={classes}>
-
-                <Link
-                  to="/athletePage/$athleteId"
-                  params={{
-                  athleteId: profile.id,
-                  }}
-                  >
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal"
-                  >
                     {name}
                   </Typography>
-                </Link>
-
                 </td>
+
                 <td className={classes}>
                   <Typography
                     variant="small"
                     color="blue-gray"
                     className="font-normal"
                   >
-                    {school}
+                    {team}
                   </Typography>
                 </td>
 
@@ -140,7 +97,7 @@ const athleteId = 'c6282c03-e6dd-4b93-9f47-a65063df7258'
                     color="blue-gray"
                     className="font-normal"
                   >
-                    {membership}
+                    {role}
                   </Typography>
                 </td>
 
@@ -161,6 +118,80 @@ const athleteId = 'c6282c03-e6dd-4b93-9f47-a65063df7258'
         </tbody>
       </table>
     </Card>
+
+    <Button onClick={coachDialog}>Create Coach</Button>
+
+    <Button onClick={() => handleOpen()}>Create Coach</Button>
+
+{/* Create Coach Dialog */}
+    {/* <Dialog open={openCoachDialog} handler={coachDialog}>
+        <CardBody className="flex flex-col gap-4">
+          <Input label='Name' size="lg" onChange={(e) => setCoachName(e.target.value)}></Input>
+          <Input label='Team' size="lg"></Input>
+          <Select label="Role">
+            <Option>Head Coach</Option>
+            <Option>Assistant Coach 1</Option>
+            <Option>Assistant Coach 2</Option>
+            <Option>Assistant Coach 3</Option>
+            <Option>Assistant Coach 4</Option>
+          </Select>
+        </CardBody>
+        <DialogFooter>
+          <Button
+            variant="text"
+            color="red"
+            onClick={coachDialog}
+            className="mr-1"
+          >
+            <span>Cancel</span>
+          </Button>
+          <Button variant="gradient" color="green" onClick={createCoach}>
+            <span>Confirm</span>
+          </Button>
+        </DialogFooter>
+      </Dialog> */}
+
+<Dialog
+        size="xs"
+        open={open}
+        handler={handleOpen}
+        className="bg-transparent shadow-none"
+      >
+        <Card className="mx-auto w-full max-w-[24rem]">
+          <CardBody className="flex flex-col gap-4">
+          <form>
+        <div className="mb-1 flex flex-col gap-6">
+        <Typography variant="h6" color="blue-gray" className="-mb-3">
+            Create New Coach
+          </Typography>
+          <Input
+            label="Name"
+            id="name"
+            onChange={(e) => setName(e.target.value)}
+          />
+
+          <Input
+            label="Team"
+            id="name"
+            onChange={(e) => setTeam(e.target.value)}
+          />
+
+          <Input
+            label="Role"
+            id="name"
+            onChange={(e) => setRole(e.target.value)}
+          />
+        </div>
+      </form>
+          </CardBody>
+          <CardFooter className="pt-0">
+          <Button onClick={() => createCoach2()}>Save</Button>
+          </CardFooter>
+        </Card>
+      </Dialog>
+
+
+
 
       <Dialog open={open} handler={handleOpen}>
         <CardBody className="flex flex-col gap-4">
