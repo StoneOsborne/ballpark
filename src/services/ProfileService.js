@@ -17,7 +17,6 @@ import supabase from "../supabaseClient"
   }
 
   async function updateProfile() {
-    debugger
     const { data, error } = await supabase
     .from('profile')
     .update({ name: 'Sydney', email: 'True', number: 5, membership: 'Blue', active: true, school: "CEC", primaryPosition: "SS", secondaryPosition: "P", team: "Ballpark BatDogs", admin: false})

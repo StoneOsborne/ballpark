@@ -1,6 +1,6 @@
 import supabase from "../supabaseClient"
 import ProfileService from '@/services/ProfileService.js'
-import NameStore from '@/stores/NameStore.js'
+import { useProfilestore } from '../stores/ProfileStore'
 import { useState, useEffect } from 'react'
 import { Link } from '@tanstack/react-router'
 import { Card, Typography, Switch, Button, Dialog, DialogHeader, DialogBody, DialogFooter, CardBody, CardFooter, Input, Select, Option } from "@material-tailwind/react";
@@ -9,63 +9,29 @@ const TABLE_HEADER = ["#", "Name", "School", "Membership", "Active", "Edit"];
 
 const TABLE_TWO = ["#", "Name", "School"];
 
-
-// const Players = [
-//   {
-//     number: "1",
-//     name: "Dylan Shelley",
-//     school: "Ballard",
-//     active: false,
-//     membership: "Gold",
-//   },
-//   {
-//     number: "2",
-//     name: "Lucas Trier",
-//     school: "HLS",
-//     active: true,
-//     membership: "Bronze",
-//   },
-//   {
-//     number: "3",
-//     name: "Will Dietzel",
-//     school: "Trinity",
-//     active: true,
-//     membership: "Silver",
-//   },
-// ];
-
 export default function TeamRoster() {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(!open);
 
-  const [profile, setProfile] = useState([])
-
-  const [name, setName] = useState('Stone')
-  // function updateName() {
-  //   setName('Sydney')
-  // }
-
+  const [firstName, setFirstName] = useState('Stone')
   function updateName() {
-    NameStore.updateName()
+    setFirstName('Sydney')
   }
 
-  useEffect(() => {
-    getProfile()
-  },[])
+const profiles = useProfilestore((ProfileStore) => ProfileStore.profiles)
+  const loadprofiles = useProfilestore((ProfileStore) => ProfileStore.loadProfiles)
 
-async function getProfile() {
-  ProfileService.getProfile().then((result) => {
-    setProfile(result)
-  })
-}
+  console.log(profiles)
+
+  useEffect(loadprofiles, [])
 
 const athleteId = 'c6282c03-e6dd-4b93-9f47-a65063df7258'
 
   return (
     <>
-    <h1>Hi {name}</h1>
+    <h1>Hi {firstName}</h1>
 
-    <Input label='First Name' size="lg"></Input>
+    {/* <Input label='First Name' size="lg"></Input> */}
 
     <Button onClick={updateName}>Change name</Button>
 
@@ -91,8 +57,8 @@ const athleteId = 'c6282c03-e6dd-4b93-9f47-a65063df7258'
           </tr>
         </thead>
         <tbody>
-          {profile.map(({ id, number, name, school, membership, active }, index) => {
-            const isLast = index === profile.length - 1;
+          {profiles.map(({ id, number, name, school, membership, active }, index) => {
+            const isLast = index === profiles.length - 1;
             const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
 
             return (
@@ -111,7 +77,7 @@ const athleteId = 'c6282c03-e6dd-4b93-9f47-a65063df7258'
                 <Link
                   to="/athletePage/$athleteId"
                   params={{
-                  athleteId: profile.id,
+                  athleteId: profiles.id,
                   }}
                   >
                   <Typography
